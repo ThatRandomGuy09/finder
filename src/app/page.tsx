@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
 
-const page = () => {
+import { db } from "@/db";
+
+export default async function Home() {
+  const items = await db.query.testing.findMany();
   return (
-    <div>
-      Hello World
-    </div>
-  )
+    <main>
+      {items.map((item) => {
+        return <div key={item.id}>{item.name}</div>;
+      })}
+    </main>
+  );
 }
-
-export default page
