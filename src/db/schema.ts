@@ -6,6 +6,7 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";
+import { Languages } from "lucide-react";
 
 export const testing = pgTable("testing", {
   id: text("id").notNull().primaryKey(),
@@ -63,3 +64,16 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
+
+export const room = pgTable("room", {
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  description: text("description"),
+  languages: text("languages").notNull(),
+  githubRepo: text("githubRepo"),
+});
+
+
+export type Room = typeof room.$inferSelect;
